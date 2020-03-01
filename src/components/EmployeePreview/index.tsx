@@ -5,7 +5,7 @@ import { useStyles } from './styles';
 
 // UI Components
 import {
-  Avatar, Grid
+  Avatar, Grid, Chip
 } from '@material-ui/core';
 
 // Models
@@ -39,15 +39,18 @@ export function EmployeePreview({ data, fields, getIdValue }: Props) {
         <Avatar alt={imgAlt} src={imgSrc} className={classes.avatar} />
       </Grid>
 
-      <Grid item md={12}>
+      <Grid item md={12} className={classes.infoGrid}>
         {
           fields.filter(filterTextFields).map(({ id, label }) => (
-            <span key={id}>
-              <span>{label}</span>
-              <span>:&nbsp;</span>
-              <span>{getIdValue ? getIdValue(id) : id}</span>
-              <br />
-            </span>
+            <Grid container key={id} className={classes.subGrid}>
+              <Grid item xs={6}>
+                <span>{label}</span>
+                <span>:&nbsp;</span>
+              </Grid>
+              <Grid item xs={6}>
+                <Chip clickable label={getIdValue ? getIdValue(id) || 'none' : id} />
+              </Grid>
+            </Grid>
           ))
         }
       </Grid>

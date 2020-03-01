@@ -9,6 +9,9 @@ export const useStyles = makeStyles((theme: Theme) =>
       flexWrap: 'wrap',
       padding: theme.spacing(2),
     },
+    previewPaper: {
+      height: '100%',
+    },
     selectInputLabel: {
       paddingRight: theme.spacing(1),
       paddingLeft: theme.spacing(1),

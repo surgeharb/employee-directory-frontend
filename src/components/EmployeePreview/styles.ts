@@ -7,8 +7,21 @@ export const useStyles = makeStyles((theme: Theme) =>
     root: {
       textAlign: 'center'
     },
+    infoGrid: {
+      padding: theme.spacing(4),
+      paddingTop: 0,
+    },
+    subGrid: {
+      maxWidth: '250px',
+      textAlign: 'left',
+      margin: '8px auto',
+
+      '& > div': {
+        lineHeight: 2,
+      }
+    },
     avatarContainer: {
-      padding: theme.spacing(4)
+      padding: theme.spacing(4),
     },
     avatar: {
       display: 'inline-flex',

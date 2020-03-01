@@ -35,8 +35,12 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props)
     return `${((data && !!id) ? data[id] : '') || ''}`;
   }
 
-  function onValueChange(event: any, id: EmployeeProperty) {
-    onDataChange(id, `${event.target.value}`);
+  function onValueChange(event: any, id: EmployeeProperty, inputType?: string) {
+    const regex = (inputType === 'number') ? /[^0-9]/g : '';
+    const value = `${event.target.value}`.replace(regex, '');
+
+    // Accept only 30 characters on each form
+    onDataChange(id, value.substr(0, 30));
   }
 
   function renderFormTextFields() {
@@ -75,12 +79,11 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props)
           id={id}
           key={id}
           fullWidth
-          type={type}
           label={label}
           value={value}
           variant="outlined"
           className={classes.textField}
-          onChange={e => onValueChange(e, id)}
+          onChange={e => onValueChange(e, id, type)}
           InputLabelProps={{ shrink: !!value || isSelected }}
           onBlur={() => isSelected && setSelectedInputId('')}
           onFocus={() => setSelectedInputId(id)}
@@ -99,7 +102,7 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props)
         </Paper>
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
-        <Paper>
+        <Paper className={classes.previewPaper}>
           <EmployeePreview data={data} fields={fields} getIdValue={getIdValue} />
         </Paper>
       </Grid>

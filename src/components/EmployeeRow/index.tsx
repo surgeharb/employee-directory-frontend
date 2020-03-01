@@ -28,7 +28,7 @@ export function EmployeeRow({ employee, fields, isSelected, onSelect }: Props) {
 
   function renderEditEmployee(employeeId: string) {
     return (
-      <NavLink to="/employees/identity">
+      <NavLink to={`/employees/${employeeId}/identity`}>
         <Tooltip key={`${employee._id}_edit`} title="Edit">
           <IconButton className={classes.editBtn}>
             <EditIcon fontSize="small" />
