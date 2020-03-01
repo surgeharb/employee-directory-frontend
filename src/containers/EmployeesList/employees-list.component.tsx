@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 
+// GraphQL
+import { useMutation } from '@apollo/react-hooks';
+import { REMOVE_EMPLOYEE } from '../../graphql/mutations/remove-employee.mutation';
+
 // UI Components
 import {
-  Table, TableBody, Paper,
-  TableContainer, TablePagination,
+  Table, TableBody, Paper, TableContainer,
+  TablePagination, CircularProgress,
 } from '@material-ui/core';
 
 // Custom Components
@@ -17,9 +21,11 @@ import { IEmployee, EmployeePropertyDto } from '../../models/employee';
 type Props = {
   data: IEmployee[],
   fields: EmployeePropertyDto[],
+  loading: boolean,
 };
 
-function EmployeesListComponent({ data, fields }: Props) {
+function EmployeesListComponent({ data, fields, loading }: Props) {
+  const [removeEmployee] = useMutation(REMOVE_EMPLOYEE);
 
   // Pagination - current page
   const [page, setPage] = useState(0);
@@ -38,6 +44,14 @@ function EmployeesListComponent({ data, fields }: Props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  function removeSelectedEmployees() {
+    selectedEmployees.forEach(employeeId =>
+      removeEmployee({ variables: { id: employeeId } })
+    );
+
+    setSelectedEmployees([]);
+  }
 
   // Remove employeeId if already selected, otherwise add "employeeId"
   function onEmployeeRowSelected(employeeId: string) {
@@ -98,11 +112,15 @@ function EmployeesListComponent({ data, fields }: Props) {
     );
   }
 
+  if (loading) {
+    return (<CircularProgress />);
+  }
+
   return (
     <Paper>
       <EmployeesTableToolbar
         numSelected={selectedEmployees.length}
-        onDelete={onSelectAllClick}
+        onDelete={removeSelectedEmployees}
       />
       <TableContainer>
         <Table>

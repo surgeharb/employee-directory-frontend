@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+
+// GraphQL
+import { useMutation } from '@apollo/react-hooks';
+import { ADD_EMPLOYEE } from '../../graphql/mutations/add-employee.mutation';
 
 // Styles
 import { useStyles } from './styles';
@@ -14,8 +19,9 @@ import { EmployeePreview } from '../../components/EmployeePreview';
 
 // Models
 import { IEmployee, EmployeeProperty, EmployeePropertyDto } from "../../models/employee";
+
+// Data
 import { IMAGES } from '../../data';
-import { NavLink } from 'react-router-dom';
 
 type Props = {
   data?: IEmployee;
@@ -27,6 +33,9 @@ type Props = {
 export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props) {
   const classes = useStyles();
 
+  // Mutation - Add Employee
+  const [addEmployee] = useMutation(ADD_EMPLOYEE);
+
   // Keep track of currently selected input
   const [selectedInputId, setSelectedInputId] = useState<string>();
 
@@ -35,12 +44,22 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props)
     return `${((data && !!id) ? data[id] : '') || ''}`;
   }
 
-  function onValueChange(event: any, id: EmployeeProperty, inputType?: string) {
+  function onValueChange(event: any, id: EmployeeProperty, inputType = '') {
     const regex = (inputType === 'number') ? /[^0-9]/g : '';
-    const value = `${event.target.value}`.replace(regex, '');
+    let value: any = `${event.target.value}`.replace(regex, '');
 
     // Accept only 30 characters on each form
-    onDataChange(id, value.substr(0, 30));
+    value = value.substr(0, 30);
+
+    if (['number', 'img-picker'].includes(inputType)) {
+      value = +value;
+    }
+    
+    onDataChange(id, value);
+  }
+
+  function saveEmployee() {
+    addEmployee({ variables: data });
   }
 
   function renderFormTextFields() {
@@ -56,14 +75,14 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props)
               id={id}
               value={value}
               labelId={`${id}-label`}
-              onChange={e => onValueChange(e, id)}
+              onChange={e => onValueChange(e, id, type)}
             >
-              <MenuItem value={-1}>
+              <MenuItem value={0}>
                 <em>None</em>
               </MenuItem>
               {
                 IMAGES.map((img, i) => (
-                  <MenuItem key={i} value={i}>
+                  <MenuItem key={i} value={i+1}>
                     <Avatar alt={img.alt} src={img.src} className={classes.avatar}></Avatar>
                     <Typography className={classes.selector}>{img.alt}</Typography>
                   </MenuItem>
@@ -113,7 +132,9 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props)
               <Button variant="contained" color="secondary" className={classes.btn}>Discard</Button>
             </NavLink>
             <NavLink to="/employees">
-              <Button variant="contained" color="primary" className={classes.btn}>Save Employee</Button>
+              <Button variant="contained" color="primary" className={classes.btn} onClick={saveEmployee}>
+                Save Employee
+              </Button>
             </NavLink>
           </Container>
         </Paper>

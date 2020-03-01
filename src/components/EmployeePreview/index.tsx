@@ -25,8 +25,8 @@ export function EmployeePreview({ data, fields, getIdValue }: Props) {
   const classes = useStyles();
 
   const pp = data?.profilePicture ?? -1;
-  const imgAlt = (pp >= 0) ? IMAGES[pp].alt : 'img';
-  const imgSrc = (pp >= 0) ? IMAGES[pp].src : undefined;
+  const imgAlt = (pp >= 0) ? IMAGES[pp + 1].alt : 'img';
+  const imgSrc = (pp >= 0) ? IMAGES[pp + 1].src : undefined;
 
   function filterTextFields({ id }: EmployeePropertyDto) {
     const removed: EmployeeProperty[] = ['profilePicture'];

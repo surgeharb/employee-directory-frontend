@@ -1,6 +1,6 @@
 export type EmployeeProperty =
-  '' | '_id' | 'name' | 'position' | 'department' | 'nationality' |
-  'profilePicture' | 'workYears' | 'birthdate' | 'idNumber';
+  '_id' | 'firstName' | 'lastName' | 'position' | 'department' |
+  'nationality' | 'profilePicture' | 'workYears' | 'phoneNumber' | '';
 
 export interface EmployeePropertyDto {
   readonly type?: 'number' | 'img-picker';
@@ -10,12 +10,12 @@ export interface EmployeePropertyDto {
 
 export interface IEmployee {
   readonly _id: string;
-  readonly name?: string;
+  readonly firstName?: string;
+  readonly lastName?: string;
   readonly position?: string;
   readonly department?: string;
   readonly nationality?: string;
-  readonly profilePicture?: number;
+  readonly phoneNumber?: number;
   readonly workYears?: number;
-  readonly birthdate?: number;
-  readonly idNumber?: number;
+  readonly profilePicture?: number;
 }

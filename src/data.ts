@@ -15,8 +15,9 @@ export const IMAGES = [
 ];
 
 export const employeesListFields: EmployeePropertyDto[] = [
-  { id: 'idNumber', label: 'ID Number', type: 'number' },
-  { id: 'name', label: 'Name' },
+  { id: 'phoneNumber', label: 'Phone Number', type: 'number' },
+  { id: 'firstName', label: 'First Name' },
+  { id: 'lastName', label: 'Last Name' },
   { id: 'department', label: 'Department' },
   { id: 'position', label: 'Position' },
   { id: 'nationality', label: 'Nationality' },

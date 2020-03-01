@@ -1,5 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
+// Apollo
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
 
 import './assets/styles/App.scss';
 
@@ -27,12 +30,17 @@ import {
 // Data
 import { employeesListFields, employeeIdentityFields } from './data';
 
+const apolloClient = new ApolloClient({
+  uri: 'http://localhost:4756/graphql',
+});
+
 function App() {
   const location = useLocation();
-  const isIdentityPage = (location.pathname === '/employees/identity');
+  const isIdentityPage = location.pathname.includes('identity');
 
   return (
     <ThemeProvider theme={theme}>
+      <ApolloProvider client={apolloClient}>
       <Container maxWidth="xl">
         <Typography variant="h5">
           Employee Directory
@@ -44,9 +52,7 @@ function App() {
           </NavLink>
           {
             isIdentityPage && (
-              <NavLink to="/employees/identity" activeClassName='Link-Active'>
-                <Typography color="textPrimary">Identity</Typography>
-              </NavLink>
+              <Typography color="textPrimary">Identity</Typography>
             )
           }
         </Breadcrumbs>
@@ -62,6 +68,9 @@ function App() {
           <Route exact path="/employees/identity">
             <EmployeeIdentityContainer fields={employeeIdentityFields} />
           </Route>
+          <Route exact path="/employees/:id/identity">
+            <EmployeeIdentityContainer fields={employeeIdentityFields} />
+          </Route>
           <Route exact path="/">
             <Redirect to="/employees" />
           </Route>
@@ -69,7 +78,8 @@ function App() {
             <Redirect to="/employees" />
           </Route>
         </Switch>
-      </Container>
+        </Container>
+      </ApolloProvider>
     </ThemeProvider>
   );
 }
