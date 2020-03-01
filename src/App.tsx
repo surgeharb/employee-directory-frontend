@@ -41,8 +41,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <ApolloProvider client={apolloClient}>
-      <Container maxWidth="xl">
-        <Typography variant="h5">
+        <Container maxWidth="xl" className="Root-Container">
+        <Typography variant="h4" className="Root-Title">
           Employee Directory
         </Typography>
 

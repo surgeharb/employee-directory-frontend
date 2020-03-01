@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const GET_ALL_EMPLOYEES = gql`
-  query GetEmployees {
-    employees: getEmployees {
+  query GetEmployees($page: Int!, $pageSize: Int!) {
+    employees: getEmployees(page: $page, pageSize: $pageSize) {
       _id
       phoneNumber
       firstName

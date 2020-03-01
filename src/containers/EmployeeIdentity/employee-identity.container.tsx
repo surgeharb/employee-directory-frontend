@@ -45,7 +45,7 @@ function EmployeeIdentityContainer({ fields }: Props) {
 
   function onSaveEmployee() {
     const params = { variables: employeeData };
-    id ? addEmployee(params) : editEmployee(params);
+    id ? editEmployee(params) : addEmployee(params);
   }
 
   return (

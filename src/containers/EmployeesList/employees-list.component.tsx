@@ -22,28 +22,18 @@ type Props = {
   data: IEmployee[],
   fields: EmployeePropertyDto[],
   loading: boolean,
+  pageSize: number,
+  page: number,
+
+  handleChangePage: (e: any, newPage: number) => void,
+  handleChangePageSize: (e: any) => void,
 };
 
-function EmployeesListComponent({ data, fields, loading }: Props) {
+function EmployeesListComponent({ data, fields, loading, page, pageSize, handleChangePage, handleChangePageSize }: Props) {
   const [removeEmployee] = useMutation(REMOVE_EMPLOYEE);
-
-  // Pagination - current page
-  const [page, setPage] = useState(0);
-
-  // Pagination - current rows per page
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Employees Table Rows - selected rows array
   const [selectedEmployees, setSelectedEmployees] = useState<string[]>([]);
-
-  function handleChangePage(event: any, newPage: number) {
-    setPage(newPage);
-  };
-
-  function handleChangeRowsPerPage(event: any) {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
 
   function removeSelectedEmployees() {
     selectedEmployees.forEach(employeeId =>
@@ -103,9 +93,9 @@ function EmployeesListComponent({ data, fields, loading }: Props) {
       <TablePagination
         component="div"
         count={data.length}
-        rowsPerPage={rowsPerPage}
+        rowsPerPage={pageSize}
         onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
+        onChangeRowsPerPage={handleChangePageSize}
         rowsPerPageOptions={[10, 25, 50]}
         page={page}
       />

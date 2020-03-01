@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // GraphQL
 import { useQuery } from '@apollo/react-hooks';
@@ -15,14 +15,40 @@ type Props = {
 };
 
 function EmployeesListContainer({ fields }: Props) {
-  const { loading, data } = useQuery(GET_ALL_EMPLOYEES, { pollInterval: 500 });
+  // Pagination - current page
+  const [page, setPage] = useState(0);
+
+  // Pagination - current rows per page
+  const [pageSize, setPageSize] = useState(10);
+
+  const { loading, data } = useQuery(GET_ALL_EMPLOYEES, {
+    variables: { page, pageSize },
+    pollInterval: 500
+  });
 
   const employeeFields: EmployeePropertyDto[] = [...fields, { id: '', label: '' }];
 
   const employees = data?.employees ?? [];
 
+  function handleChangePage(e: any, newPage: number) {
+    setPage(newPage);
+  }
+
+  function handleChangePageSize(event: any) {
+    setPageSize(+event.target.value);
+    setPage(0);
+  };
+
   return (
-    <EmployeesListComponent loading={loading} data={employees} fields={employeeFields} />
+    <EmployeesListComponent
+      handleChangePageSize={handleChangePageSize}
+      handleChangePage={handleChangePage}
+      fields={employeeFields}
+      pageSize={pageSize}
+      loading={loading}
+      data={employees}
+      page={page}
+    />
   );
 }
 

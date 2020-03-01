@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 // Styles
 import { useStyles } from './styles';
@@ -7,8 +7,10 @@ import { useStyles } from './styles';
 // UI Components
 import {
   Grid, Paper, TextField, InputLabel, Select, Container,
-  FormControl, MenuItem, Avatar, Typography, Button,
+  FormControl, MenuItem, Avatar, Typography, Button, Snackbar,
 } from '@material-ui/core';
+
+import { Alert } from '@material-ui/lab';
 
 // Custom Components
 import { EmployeePreview } from '../../components/EmployeePreview';
@@ -29,6 +31,10 @@ type Props = {
 
 export function EmployeeIdentityComponent({ data, fields, onDataChange, onSubmit }: Props) {
   const classes = useStyles();
+  const history = useHistory();
+
+  // Error Alert on submission
+  const [alertIsShown, setAlertIsShown] = useState(false);
 
   // Keep track of currently selected input
   const [selectedInputId, setSelectedInputId] = useState<string>();
@@ -36,6 +42,24 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange, onSubmit
   // Parse value from object property key
   function getIdValue(id: EmployeeProperty) {
     return `${((data && !!id) ? data[id] : '') || ''}`;
+  }
+
+  // TextFields Validation
+  function isEveryInputValid() {
+    return !fields.map(({ id }) => !!getIdValue(id)).includes(false);
+  }
+
+  function onSaveClicked() {
+    if (isEveryInputValid()) {
+      history.goBack();
+      onSubmit();
+    } else {
+      setAlertIsShown(true);
+
+      setTimeout(() => {
+        setAlertIsShown(false);
+      }, 2000);
+    }
   }
 
   function onValueChange(event: any, id: EmployeeProperty, inputType = '') {
@@ -87,6 +111,7 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange, onSubmit
         <TextField
           id={id}
           key={id}
+          required
           fullWidth
           label={label}
           value={value}
@@ -102,33 +127,38 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange, onSubmit
   }
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12} sm={12} md={6}>
-        <Paper>
-          <form noValidate autoComplete="off" className={classes.root}>
-            {renderFormTextFields()}
-          </form>
-        </Paper>
-      </Grid>
-      <Grid item xs={12} sm={12} md={6}>
-        <Paper className={classes.previewPaper}>
-          <EmployeePreview data={data} fields={fields} getIdValue={getIdValue} />
-        </Paper>
-      </Grid>
-      <Grid item xs={12}>
-        <Paper className={classes.btns}>
-          <Container maxWidth="xs" className={classes.btnContainer}>
-            <NavLink to="/employees">
-              <Button variant="contained" color="secondary" className={classes.btn}>Discard</Button>
-            </NavLink>
-            <NavLink to="/employees">
-              <Button variant="contained" color="primary" className={classes.btn} onClick={onSubmit}>
+    <>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={12} md={6}>
+          <Paper>
+            <form noValidate autoComplete="off" className={classes.root}>
+              {renderFormTextFields()}
+            </form>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={12} md={6}>
+          <Paper className={classes.previewPaper}>
+            <EmployeePreview data={data} fields={fields} getIdValue={getIdValue} />
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.btns}>
+            <Container maxWidth="xs" className={classes.btnContainer}>
+              <NavLink to="/employees">
+                <Button variant="contained" color="secondary" className={classes.btn}>Discard</Button>
+              </NavLink>
+              <Button variant="contained" color="primary" className={classes.btn} onClick={onSaveClicked}>
                 Save Employee
-              </Button>
-            </NavLink>
-          </Container>
-        </Paper>
+            </Button>
+            </Container>
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+      <Snackbar open={alertIsShown}>
+        <Alert severity="error">
+          All the fields are required!
+        </Alert>
+      </Snackbar>
+    </>
   );
 }

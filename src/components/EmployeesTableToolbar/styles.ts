@@ -8,7 +8,7 @@ export const useStyles = makeStyles((theme: Theme) =>
       flex: 1,
       justifyContent: 'space-between'
     },
-    btn: {
+    btnMargin: {
       marginRight: theme.spacing(2),
     }
   }),

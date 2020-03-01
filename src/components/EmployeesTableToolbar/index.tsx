@@ -15,10 +15,12 @@ import SearchListIcon from '@material-ui/icons/Search';
 
 type Props = {
   numSelected: number;
+  searchEnabled?: boolean;
+
   onDelete: () => void;
 }
 
-export function EmployeesTableToolbar({ numSelected, onDelete }: Props) {
+export function EmployeesTableToolbar({ numSelected, onDelete, searchEnabled }: Props) {
   const classes = useStyles();
 
   function renderInitialTooltip() {
@@ -29,15 +31,19 @@ export function EmployeesTableToolbar({ numSelected, onDelete }: Props) {
         </Typography>
         <div>
           <NavLink to="/employees/identity">
-            <Button variant="outlined" color="primary" className={classes.btn}>
+            <Button variant="outlined" color="primary" className={searchEnabled ? classes.btnMargin : undefined}>
               + Add Employee
             </Button>
           </NavLink>
-          <Tooltip title="Search">
-            <IconButton>
-              <SearchListIcon />
-            </IconButton>
-          </Tooltip>
+          {
+            searchEnabled && (
+              <Tooltip title="Search">
+                <IconButton>
+                  <SearchListIcon />
+                </IconButton>
+              </Tooltip>
+            )
+          }
         </div>
       </>
     );
