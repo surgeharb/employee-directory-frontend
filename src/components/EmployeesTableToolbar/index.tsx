@@ -1,11 +1,12 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 // Styles
-import './styles.scss';
+import { useStyles } from './styles';
 
 // UI Components
 import {
-  Toolbar, Typography, Tooltip, IconButton,
+  Toolbar, Typography, Tooltip, IconButton, Button,
 } from '@material-ui/core';
 
 // Material Icons
@@ -18,31 +19,48 @@ type Props = {
 }
 
 export function EmployeesTableToolbar({ numSelected, onDelete }: Props) {
-  return (
-    <Toolbar className="Table-Toolbar">
-      {numSelected > 0 ? (
+  const classes = useStyles();
+
+  function renderInitialTooltip() {
+    return (
+      <>
+        <Typography variant="h6" id="tableTitle">
+          Employees List
+        </Typography>
+        <div>
+          <NavLink to="/employees/identity">
+            <Button variant="outlined" color="primary" className={classes.btn}>
+              + Add Employee
+            </Button>
+          </NavLink>
+          <Tooltip title="Search">
+            <IconButton>
+              <SearchListIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+      </>
+    );
+  }
+
+  function renderSelectedTooltip() {
+    return (
+      <>
         <Typography color="inherit" variant="subtitle1">
           {numSelected} selected
         </Typography>
-      ) : (
-          <Typography variant="h6" id="tableTitle">
-            Employees List
-        </Typography>
-        )}
-
-      {numSelected > 0 ? (
         <Tooltip title="Delete" onClick={onDelete}>
           <IconButton>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-      ) : (
-          <Tooltip title="Filter list">
-            <IconButton>
-              <SearchListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+      </>
+    );
+  }
+
+  return (
+    <Toolbar className={classes.toolbar}>
+      {(numSelected > 0) ? renderSelectedTooltip() : renderInitialTooltip()}
     </Toolbar>
   );
 }

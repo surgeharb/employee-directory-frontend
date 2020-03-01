@@ -15,6 +15,7 @@ import { EmployeePreview } from '../../components/EmployeePreview';
 // Models
 import { IEmployee, EmployeeProperty, EmployeePropertyDto } from "../../models/employee";
 import { IMAGES } from '../../data';
+import { NavLink } from 'react-router-dom';
 
 type Props = {
   data?: IEmployee;
@@ -45,7 +46,7 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props)
 
       if (type === 'img-picker') {
         return (
-          <FormControl variant="outlined" fullWidth className={classes.textField}>
+          <FormControl key={`${id}-input`} variant="outlined" fullWidth className={classes.textField}>
             <InputLabel id={`${id}-label`} className={classes.selectInputLabel}>{label}</InputLabel>
             <Select
               id={id}
@@ -105,8 +106,12 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props)
       <Grid item xs={12}>
         <Paper className={classes.btns}>
           <Container maxWidth="xs" className={classes.btnContainer}>
-            <Button variant="contained" color="secondary" className={classes.btn} href="/employees">Discard</Button>
-            <Button variant="contained" color="primary" className={classes.btn}>Save Employee</Button>
+            <NavLink to="/employees">
+              <Button variant="contained" color="secondary" className={classes.btn}>Discard</Button>
+            </NavLink>
+            <NavLink to="/employees">
+              <Button variant="contained" color="primary" className={classes.btn}>Save Employee</Button>
+            </NavLink>
           </Container>
         </Paper>
       </Grid>

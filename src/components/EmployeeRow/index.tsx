@@ -1,7 +1,8 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 // Styles
-import './styles.scss';
+import { useStyles } from './styles';
 
 // UI Components
 import {
@@ -9,7 +10,7 @@ import {
 } from '@material-ui/core';
 
 // Models
-import { IEmployee, EmployeeProperty, EmployeePropertyDto } from '../../models/employee';
+import { IEmployee, EmployeePropertyDto } from '../../models/employee';
 
 // Material Icons
 import EditIcon from '@material-ui/icons/Edit';
@@ -23,13 +24,17 @@ type Props = {
 };
 
 export function EmployeeRow({ employee, fields, isSelected, onSelect }: Props) {
+  const classes = useStyles();
+
   function renderEditEmployee(employeeId: string) {
     return (
-      <Tooltip key={`${employee._id}_edit`} title="Edit">
-        <IconButton className="Employee-Row-Edit">
-          <EditIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
+      <NavLink to="/employees/identity">
+        <Tooltip key={`${employee._id}_edit`} title="Edit">
+          <IconButton className={classes.editBtn}>
+            <EditIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </NavLink>
     );
   }
 
