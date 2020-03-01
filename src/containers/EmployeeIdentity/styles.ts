@@ -23,7 +23,7 @@ export const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(2),
     },
     textField: {
-      margin: theme.spacing(1),
+      margin: '8px!important',
     },
     avatar: {
       display: 'inline-flex',
