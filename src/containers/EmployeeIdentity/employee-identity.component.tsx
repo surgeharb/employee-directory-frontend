@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-// GraphQL
-import { useMutation } from '@apollo/react-hooks';
-import { ADD_EMPLOYEE } from '../../graphql/mutations/add-employee.mutation';
-
 // Styles
 import { useStyles } from './styles';
 
@@ -24,17 +20,15 @@ import { IEmployee, EmployeeProperty, EmployeePropertyDto } from "../../models/e
 import { IMAGES } from '../../data';
 
 type Props = {
-  data?: IEmployee;
-  fields: EmployeePropertyDto[];
+  data?: IEmployee,
+  fields: EmployeePropertyDto[],
 
-  onDataChange: (key: EmployeeProperty, value: any) => void;
+  onSubmit: () => void,
+  onDataChange: (key: EmployeeProperty, value: any) => void,
 };
 
-export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props) {
+export function EmployeeIdentityComponent({ data, fields, onDataChange, onSubmit }: Props) {
   const classes = useStyles();
-
-  // Mutation - Add Employee
-  const [addEmployee] = useMutation(ADD_EMPLOYEE);
 
   // Keep track of currently selected input
   const [selectedInputId, setSelectedInputId] = useState<string>();
@@ -56,10 +50,6 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props)
     }
     
     onDataChange(id, value);
-  }
-
-  function saveEmployee() {
-    addEmployee({ variables: data });
   }
 
   function renderFormTextFields() {
@@ -132,7 +122,7 @@ export function EmployeeIdentityComponent({ data, fields, onDataChange }: Props)
               <Button variant="contained" color="secondary" className={classes.btn}>Discard</Button>
             </NavLink>
             <NavLink to="/employees">
-              <Button variant="contained" color="primary" className={classes.btn} onClick={saveEmployee}>
+              <Button variant="contained" color="primary" className={classes.btn} onClick={onSubmit}>
                 Save Employee
               </Button>
             </NavLink>
