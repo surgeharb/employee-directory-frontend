@@ -4,13 +4,14 @@ import React, { useState, useEffect } from 'react';
 import EmployeesListComponent from './employees-list.component';
 
 // Models
-import { IEmployee, EmployeeProperty } from '../../models/employee';
+import { IEmployee, EmployeeProperty, EmployeePropertyDto } from '../../models/employee';
 
-function EmployeesListContainer() {
+type Props = {
+  fields: EmployeePropertyDto[];
+};
+
+function EmployeesListContainer({ fields }: Props) {
   const [data, setData] = useState<IEmployee[]>([]);
-
-  // Property fields of employee to be displayed in table rows
-  const [fields] = useState<EmployeeProperty[]>(['_id', 'name', 'department', 'position', 'nationality', '']);
 
   // runs once in component lifecycle
   useEffect(() => {
@@ -26,7 +27,7 @@ function EmployeesListContainer() {
   }, []);
 
   return (
-    <EmployeesListComponent data={data} fields={fields} />
+    <EmployeesListComponent data={data} fields={[...fields, { id: '', label: '' }]} />
   );
 }
 

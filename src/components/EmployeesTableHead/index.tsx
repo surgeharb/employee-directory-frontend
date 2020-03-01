@@ -4,22 +4,16 @@ import React from 'react';
 import {
   TableHead, TableRow, TableCell, Checkbox
 } from "@material-ui/core";
+import { EmployeePropertyDto } from '../../models/employee';
 
 type Props = {
   onSelectAllClick: () => void;
+  headCells: EmployeePropertyDto[];
   numSelected: number;
-  headCells: string[];
   rowCount: number;
 };
 
 export function EmployeesTableHead({ numSelected, rowCount, headCells, onSelectAllClick }: Props) {
-  // Capitalize first character 
-  // and remove special characters
-  function formatCellHead(text: string) {
-    text = text.replace(/[^0-9A-Za-z\s]/g, '');
-    return text.charAt(0).toUpperCase() + text.substr(1);
-  }
-
   return (
     <TableHead>
       <TableRow>
@@ -31,8 +25,8 @@ export function EmployeesTableHead({ numSelected, rowCount, headCells, onSelectA
           />
         </TableCell>
 
-        {headCells.map(headCellText => (
-          <TableCell key={headCellText}>{formatCellHead(headCellText)}</TableCell>
+        {headCells.map(headCell => (
+          <TableCell key={headCell.id}>{headCell.label}</TableCell>
         ))}
       </TableRow>
     </TableHead>

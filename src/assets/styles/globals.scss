@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.MuiInputBase-input {
+  .MuiAvatar-root {
+    position: relative;
+    left: 6px;
+    top: 4px;
+  }
+}

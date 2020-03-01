@@ -10,7 +10,7 @@ import {
 
 // Material Icons
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import SearchListIcon from '@material-ui/icons/Search';
 
 type Props = {
   numSelected: number;
@@ -39,7 +39,7 @@ export function EmployeesTableToolbar({ numSelected, onDelete }: Props) {
       ) : (
           <Tooltip title="Filter list">
             <IconButton>
-              <FilterListIcon />
+              <SearchListIcon />
             </IconButton>
           </Tooltip>
         )}

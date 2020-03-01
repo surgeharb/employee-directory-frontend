@@ -11,6 +11,9 @@ import {
 // Models
 import { IEmployee, EmployeePropertyDto, EmployeeProperty } from '../../models/employee';
 
+// Data
+import { IMAGES } from '../../data';
+
 type Props = {
   data?: IEmployee;
   fields: EmployeePropertyDto[];
@@ -21,15 +24,24 @@ type Props = {
 export function EmployeePreview({ data, fields, getIdValue }: Props) {
   const classes = useStyles();
 
+  const pp = data?.profilePicture ?? -1;
+  const imgAlt = (pp >= 0) ? IMAGES[pp].alt : 'img';
+  const imgSrc = (pp >= 0) ? IMAGES[pp].src : undefined;
+
+  function filterTextFields({ id }: EmployeePropertyDto) {
+    const removed: EmployeeProperty[] = ['profilePicture'];
+    return !removed.includes(id);
+  }
+
   return (
     <Grid container className={classes.root}>
       <Grid item md={12} className={classes.avatarContainer}>
-        <Avatar alt="Remy Sharp" className={classes.avatar} />
+        <Avatar alt={imgAlt} src={imgSrc} className={classes.avatar} />
       </Grid>
 
       <Grid item md={12}>
         {
-          fields.map(({ id, label }) => (
+          fields.filter(filterTextFields).map(({ id, label }) => (
             <span key={id}>
               <span>{label}</span>
               <span>:&nbsp;</span>

@@ -12,11 +12,11 @@ import { EmployeesTableHead } from '../../components/EmployeesTableHead';
 import { EmployeesTableToolbar } from '../../components/EmployeesTableToolbar';
 
 // Models
-import { IEmployee, EmployeeProperty } from '../../models/employee';
+import { IEmployee, EmployeeProperty, EmployeePropertyDto } from '../../models/employee';
 
 type Props = {
   data: IEmployee[],
-  fields: EmployeeProperty[],
+  fields: EmployeePropertyDto[],
 };
 
 function EmployeesListComponent({ data, fields }: Props) {

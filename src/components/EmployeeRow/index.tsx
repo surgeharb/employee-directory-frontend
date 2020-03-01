@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 
 // Models
-import { IEmployee, EmployeeProperty } from '../../models/employee';
+import { IEmployee, EmployeeProperty, EmployeePropertyDto } from '../../models/employee';
 
 // Material Icons
 import EditIcon from '@material-ui/icons/Edit';
@@ -17,7 +17,8 @@ import EditIcon from '@material-ui/icons/Edit';
 type Props = {
   isSelected: boolean;
   employee: IEmployee;
-  fields: EmployeeProperty[];
+  fields: EmployeePropertyDto[];
+
   onSelect: () => void;
 };
 
@@ -38,10 +39,10 @@ export function EmployeeRow({ employee, fields, isSelected, onSelect }: Props) {
         <Checkbox checked={isSelected} onClick={onSelect} />
       </TableCell>
 
-      {fields.map(field => (
-        <TableCell key={`${employee._id}_${field || 'edit'}`} align={field ? "left" : "center"}>
+      {fields.map(({ id }) => (
+        <TableCell key={`${employee._id}_${id || 'edit'}`} align={id ? "left" : "center"}>
           {/** Add Edit Employee Action if field is empty (end of row) */}
-          {field ? employee[field] : renderEditEmployee(employee._id)}
+          {id ? employee[id] : renderEditEmployee(employee._id)}
         </TableCell>
       ))}
     </TableRow>
