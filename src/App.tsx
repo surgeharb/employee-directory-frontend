@@ -31,7 +31,7 @@ import {
 import { employeesListFields, employeeIdentityFields } from './data';
 
 const apolloClient = new ApolloClient({
-  uri: 'https://directory.sergeharb.com/graphql',
+  uri: 'https://api.directory.sergeharb.com/graphql',
 });
 
 function App() {
