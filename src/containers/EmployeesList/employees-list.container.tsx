@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 // GraphQL
 import { useQuery } from '@apollo/react-hooks';
-import { GET_ALL_EMPLOYEES } from '../../graphql/queries/employee.query';
+import { GET_ALL_EMPLOYEES, COUNT_ALL_EMPLOYEES } from '../../graphql/queries/employee.query';
 
 // Custom Components
 import EmployeesListComponent from './employees-list.component';
@@ -20,6 +20,9 @@ function EmployeesListContainer({ fields }: Props) {
 
   // Pagination - current rows per page
   const [pageSize, setPageSize] = useState(10);
+
+  // Pagination - employees database total count
+  const { data: countData } = useQuery(COUNT_ALL_EMPLOYEES, { pollInterval: 500 });
 
   const { loading, data } = useQuery(GET_ALL_EMPLOYEES, {
     variables: { page, pageSize },
@@ -41,6 +44,7 @@ function EmployeesListContainer({ fields }: Props) {
 
   return (
     <EmployeesListComponent
+      count={countData?.count ?? 0}
       handleChangePageSize={handleChangePageSize}
       handleChangePage={handleChangePage}
       fields={employeeFields}

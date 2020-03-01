@@ -1,5 +1,11 @@
 import gql from 'graphql-tag';
 
+export const COUNT_ALL_EMPLOYEES = gql`
+  query CountEmployees {
+    count: countEmployees
+  }
+`;
+
 export const GET_ALL_EMPLOYEES = gql`
   query GetEmployees($page: Int!, $pageSize: Int!) {
     employees: getEmployees(page: $page, pageSize: $pageSize) {

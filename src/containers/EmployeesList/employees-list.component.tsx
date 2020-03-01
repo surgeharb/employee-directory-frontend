@@ -23,13 +23,14 @@ type Props = {
   fields: EmployeePropertyDto[],
   loading: boolean,
   pageSize: number,
+  count: number,
   page: number,
 
   handleChangePage: (e: any, newPage: number) => void,
   handleChangePageSize: (e: any) => void,
 };
 
-function EmployeesListComponent({ data, fields, loading, page, pageSize, handleChangePage, handleChangePageSize }: Props) {
+function EmployeesListComponent({ data, count, fields, loading, page, pageSize, handleChangePage, handleChangePageSize }: Props) {
   const [removeEmployee] = useMutation(REMOVE_EMPLOYEE);
 
   // Employees Table Rows - selected rows array
@@ -92,7 +93,7 @@ function EmployeesListComponent({ data, fields, loading, page, pageSize, handleC
     return (
       <TablePagination
         component="div"
-        count={data.length}
+        count={count}
         rowsPerPage={pageSize}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangePageSize}
