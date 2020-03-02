@@ -24,9 +24,9 @@ type Props = {
 export function EmployeePreview({ data, fields, getIdValue }: Props) {
   const classes = useStyles();
 
-  const pp = data?.profilePicture ?? -1;
-  const imgAlt = (pp >= 0) ? IMAGES[pp - 1].alt : 'img';
-  const imgSrc = (pp >= 0) ? IMAGES[pp - 1].src : undefined;
+  const pp = data?.profilePicture ?? 0;
+  const imgAlt = (pp > 0) ? IMAGES[pp - 1].alt : 'img';
+  const imgSrc = (pp > 0) ? IMAGES[pp - 1].src : undefined;
 
   function filterTextFields({ id }: EmployeePropertyDto) {
     const removed: EmployeeProperty[] = ['profilePicture'];
