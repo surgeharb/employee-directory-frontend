@@ -26,9 +26,9 @@ export const useStyles = makeStyles((theme: Theme) =>
       margin: '8px!important',
     },
     avatar: {
-      display: 'inline-flex',
-      width: theme.spacing(2.5),
-      height: theme.spacing(2.5),
+      display: 'inline-flex!important',
+      width: '20px!important',
+      height: '20px!important',
     },
     btns: {
       padding: theme.spacing(2),
